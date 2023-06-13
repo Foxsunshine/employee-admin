@@ -9,10 +9,10 @@ const counter = useCounterStore();
 const name = ref("");
 const email = ref("");
 
-const newData = ref({
-  name: "",
-  email: "",
-});
+// const newData = ref({
+//   name: "",
+//   email: "",
+// });
 </script>
 
 <template>
@@ -39,7 +39,8 @@ const newData = ref({
         />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton :newData="{ name: name, email: email }" />
+        <!-- <ConfirmButton :newData="{ name: name, email: email }" /> -->
+        <ConfirmButton @click="counter.setNewData(name, email)" />
         <CancelButton />
       </div>
     </form>

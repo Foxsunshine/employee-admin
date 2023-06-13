@@ -12,7 +12,7 @@ console.log(counter.newData.name, counter.newData.email);
     <form class="row g-3">
       <div class="mb-3">
         <p>id</p>
-        <p>{{ counter.newData.id }}</p>
+        <p>{{ counter.updateId }}</p>
       </div>
       <div class="mb-3">
         <p>名前</p>

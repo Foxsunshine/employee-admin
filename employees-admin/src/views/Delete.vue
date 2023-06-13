@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
-import ConfirmButton from "../components/ConfirmButton.vue";
+import DeleteButton from "../components/DeleteButton.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -12,6 +12,8 @@ const counter = useCounterStore();
 const id = ref(route.query.id);
 const name = ref(route.query.name);
 const email = ref(route.query.email);
+
+console.log(name.value);
 
 function setNewData() {
   counter.setNewData(name.value, email.value);
@@ -27,20 +29,29 @@ function setNewData() {
           readonly
           type="text"
           class="form-control-plaintext"
-          id="name"
           :value="id"
         />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
-        <input v-model="name" type="text" class="form-control" id="name" />
+        <input
+          readonly
+          type="text"
+          class="form-control-plaintext"
+          :value="name"
+        />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Email</label>
-        <input v-model="email" type="email" class="form-control" id="name" />
+        <input
+          readonly
+          type="text"
+          class="form-control-plaintext"
+          :value="email"
+        />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton @click="setNewData" />
+        <DeleteButton />
         <CancelButton />
       </div>
     </form>

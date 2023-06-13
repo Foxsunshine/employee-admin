@@ -6,16 +6,8 @@ console.log(counter.confirmTo);
 
 <template>
   <router-link to="/employees"
-    ><button
-      type="button"
-      class="btn btn-primary"
-      @click="
-        counter.confirmTo == 'create'
-          ? counter.insertData()
-          : counter.updateData()
-      "
-    >
-      登録
+    ><button type="button" class="btn btn-danger" @click="counter.deleteData">
+      削除
     </button>
   </router-link>
 </template>

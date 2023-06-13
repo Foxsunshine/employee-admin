@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,13 +33,18 @@ public class EmployeesController {
         return "successfully insert";
     }
 
-    @PutMapping("update")
-    public String updateById(@RequestBody Map<String, String> body) {
-        int id = Integer.parseInt(body.get("id"));
+    @PutMapping("update/{id}")
+    public String updateById(@PathVariable int id, @RequestBody Map<String, String> body) {
         String name = body.get("name");
         String email = body.get("email");
-        int rowsUpdated = respository.updateEmployeesById(name, email, id);
+        int rowsUpdated = respository.updateEmployeeById(name, email, id);
         return rowsUpdated + " row(s) have been updated";
+    }
+
+    @DeleteMapping("delete/{id}")
+    public String deleteById(@PathVariable int id) {
+        int rowsUpdated = respository.deleteEmployeeById(id);
+        return rowsUpdated + " row(s) have been deleted";
     }
 
 }

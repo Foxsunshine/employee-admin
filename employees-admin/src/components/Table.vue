@@ -1,40 +1,75 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useCounterStore } from "@/stores/counter";
 
 const datas = ref({});
+const isLoading = ref(true);
+const counter = useCounterStore();
+onMounted(async () => {
+  datas.value = await counter.loadData();
+  isLoading.value = false;
+});
 
-fetch("http://localhost:8080/api/employees")
-  .then((res) => {
-    if (!res.ok) {
-      throw new Error("network error.we couldn't call api.");
-    }
-    return res.json();
-  })
-  .then((jsonData) => {
-    datas.value = jsonData;
-    console.log(datas);
-    // datas.value.forEach(addRow);
-  })
-  .catch((err) => console.error(err));
+// 实现翻页
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+//哪十个元素被展示
+const displayedData = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return datas.value.slice(start, end);
+});
+//到下一页
+const nextPage = () => {
+  if (currentPage.value * itemsPerPage.value < datas.value.length) {
+    currentPage.value++;
+    console.log(currentPage.value);
+  }
+  // } else {
+  //   alert("No more datas");
+  // }
+};
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    console.log(currentPage.value);
+  }
+  // else {
+  //   alert("This is the start of data");
+  // }
+};
+//计算总的页码数量
+const totalPages = computed(() => {
+  return Math.ceil(datas.value.length / itemsPerPage.value);
+});
 
-// function addRow(data) {
-//   const table = document.getElementById("myTable");
-//   const tbody = table.getElementsByTagName("tbody")[0];
-//   const rowHTML = `
-//         <tr>
-//             <td>${data.id}</td>
-//             <td>${data.name}</td>
-//             <td>${data.email}</td>
-//             <td>🗑️</td>
-//             <td>✏️</td>
-//         </tr>
-//     `;
-//   tbody.innerHTML += rowHTML;
-// }
+//最大可见页码数量
+const maxVisibleButtons = ref(3);
+
+const startPage = computed(() => {
+  let start = currentPage.value - Math.floor(maxVisibleButtons.value / 2);
+  return Math.max(start, 1);
+});
+
+const pages = computed(() => {
+  const range = [];
+
+  for (
+    let i = startPage.value;
+    i <=
+    Math.min(startPage.value + maxVisibleButtons.value - 1, totalPages.value);
+    i++
+  ) {
+    range.push({ name: i, isDisabled: i === currentPage.value });
+  }
+
+  return range;
+});
 </script>
 
 <template>
-  <table id="myTable" class="table table-hover">
+  <div v-if="isLoading">Loading...</div>
+  <table v-else id="myTable" class="table table-hover">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -45,21 +80,55 @@ fetch("http://localhost:8080/api/employees")
       </tr>
     </thead>
     <tbody>
-      <tr v-for="data in datas" :key="data.id">
+      <tr v-for="data in displayedData" :key="data.id">
         <td>{{ data.id }}</td>
         <td>{{ data.name }}</td>
         <td>{{ data.email }}</td>
-        <td><a href="">🗑️</a></td>
+        <td>
+          <router-link
+            :to="{
+              path: 'delete',
+              query: { id: data.id, name: data.name, email: data.email },
+            }"
+            @click="counter.setDeleteId(data.id)"
+            >🗑️</router-link
+          >
+        </td>
         <td>
           <router-link
             :to="{
               path: 'update',
               query: { id: data.id, name: data.name, email: data.email },
             }"
+            @click="counter.setConfirmToUpdate"
             >✏️</router-link
           >
         </td>
       </tr>
     </tbody>
   </table>
+  <ul class="pagination">
+    <li class="page-item">
+      <button class="page-link" @click="previousPage">&laquo;</button>
+    </li>
+    <li class="page-item" v-if="startPage > 1">
+      <span class="page-link">...</span>
+    </li>
+    <li class="page-item" v-for="page in pages" :key="page.name">
+      <button
+        class="page-link"
+        type="button"
+        :disabled="page.isDisabled"
+        @click="currentPage = page.name"
+      >
+        {{ page.name }}
+      </button>
+    </li>
+    <li class="page-link" v-if="startPage + maxVisibleButtons - 1 < totalPages">
+      <span>...</span>
+    </li>
+    <li class="page-item">
+      <button class="page-link" @click="nextPage">&raquo;</button>
+    </li>
+  </ul>
 </template>
