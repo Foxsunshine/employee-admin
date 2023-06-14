@@ -9,14 +9,9 @@ const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
 
-const id = ref(route.query.id);
-const name = ref(route.query.name);
-const email = ref(route.query.email);
-
-function setNewData() {
-  counter.setNewData(name.value, email.value);
-  counter.setUpdateId(id.value);
-}
+const id = ref(counter.updateId);
+const name = ref(counter.newData.name);
+const email = ref(counter.newData.email);
 </script>
 <template>
   <div>
@@ -40,7 +35,7 @@ function setNewData() {
         <input v-model="email" type="email" class="form-control" id="name" />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton @click="setNewData" />
+        <ConfirmButton @click="counter.setNewData(name, email)" />
         <CancelButton />
       </div>
     </form>

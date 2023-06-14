@@ -1,24 +1,28 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
 import DeleteButton from "../components/DeleteButton.vue";
+// import { getItem, setItem, removeItem } from "@/stores/storage.js";
 
 const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
 
-const id = ref(route.query.id);
-const name = ref(route.query.name);
-const email = ref(route.query.email);
+// onMounted(() => {
+//   // 从 localStorage 中读取数据
+//   const data = getItem("counterData");
+//   if (data) {
+//     // 从 localStorage 中恢复数据
+//     counter.newData = data;
+//   }
+// });
 
-console.log(name.value);
-
-function setNewData() {
-  counter.setNewData(name.value, email.value);
-  counter.setUpdateId(id.value);
-}
+// onUnmounted(() => {
+//   // 当组件卸载时，将数据存储到 localStorage 中
+//   setItem("counterData", counter.newData);
+// });
 </script>
 <template>
   <div>
@@ -29,7 +33,7 @@ function setNewData() {
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="id"
+          :value="counter.deleteId"
         />
       </div>
       <div class="mb-3">
@@ -38,7 +42,7 @@ function setNewData() {
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="name"
+          :value="counter.newData.name"
         />
       </div>
       <div class="mb-3">
@@ -47,7 +51,7 @@ function setNewData() {
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="email"
+          :value="counter.newData.email"
         />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">

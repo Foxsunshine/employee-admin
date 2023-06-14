@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import ConfirmButton from "../components/ConfirmButton.vue";
 import CancelButton from "../components/CancelButton.vue";
@@ -9,10 +9,10 @@ const counter = useCounterStore();
 const name = ref("");
 const email = ref("");
 
-// const newData = ref({
-//   name: "",
-//   email: "",
-// });
+const isValidEmail = computed(() => {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email.value);
+});
 </script>
 
 <template>
@@ -37,10 +37,15 @@ const email = ref("");
           id="name"
           placeholder="Aiful@aiful.com"
         />
+        <p v-if="!isValidEmail" style="color: red">
+          Please enter a valid email.
+        </p>
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <!-- <ConfirmButton :newData="{ name: name, email: email }" /> -->
-        <ConfirmButton @click="counter.setNewData(name, email)" />
+        <ConfirmButton
+          @click="counter.setNewData(name, email)"
+          :disabled="!isValidEmail"
+        />
         <CancelButton />
       </div>
     </form>

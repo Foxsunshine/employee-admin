@@ -15,12 +15,12 @@ body {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
+    color: 505050;
 }
 
 a,
 a:visited {
-    color: #2c3e50;
+    color: #505050;
 }
 
 .container {
@@ -54,7 +54,7 @@ a:visited {
     color: white;
     display: flex;
     align-items: center;
-    border-bottom: 5px solid #4e6c71;
+    border-bottom: 5px solid #707070;
     z-index: 2;
 }
 
@@ -129,10 +129,10 @@ a {
 }
 
 .experiences .card .card__text {
-    background: #2c3e50;
+    background: 505050;
     color: white;
     display: block;
-    border-top: 2px solid #4e6c71;
+    border-top: 2px solid #777777;
     padding: 10px;
 }
 
