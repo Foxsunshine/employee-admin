@@ -20,5 +20,8 @@ public class Employees {
     private String name;
     @Column(name = "email")
     private String email;
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
 
 }

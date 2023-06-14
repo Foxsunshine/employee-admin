@@ -110,32 +110,5 @@ export const useCounterStore = defineStore({
       this.newData.name = name;
       this.newData.email = email;
     },
-
-    // //localStorage 的相关函数
-    // getItem(key) {
-    //   const value = localStorage.getItem(key);
-    //   return value ? JSON.parse(value) : null;
-    // },
-    // setItem(key, value) {
-    //   localStorage.setItem(key, JSON.stringify(value));
-    // },
-    // removeItem(key) {
-    //   localStorage.removeItem(key);
-    // },
-
-    // // 加载和保存数据的 actions
-    // loadSavedData() {
-    //   const data = this.getItem("counterData");
-    //   if (data) {
-    //     this.newData = data;
-    //   }
-    // },
-    // saveData() {
-    //   this.setItem("counterData", this.newData);
-    // },
-
-    // removeSavedData() {
-    //   this.removeItem("counterData");
-    // },
   },
 });
