@@ -2,10 +2,12 @@
 import { useCounterStore } from "@/stores/counter";
 import RegisterButton from "../components/RegisterButton.vue";
 import CancelButton from "../components/CancelButton.vue";
+import TheNavigationForCreateConfirm from "@/components/TheNavigationForCreateConfirm.vue";
 
 const counter = useCounterStore();
 </script>
 <template>
+  <TheNavigationForCreateConfirm />
   <div>
     <form class="row g-3">
       <div class="mb-3">
@@ -23,7 +25,4 @@ const counter = useCounterStore();
     </form>
   </div>
 </template>
-<style scoped>
-
-
-</style>
+<style scoped></style>

@@ -3,19 +3,24 @@ import { ref, computed } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import ConfirmButton from "../components/ConfirmButton.vue";
 import CancelButton from "../components/CancelButton.vue";
-
+import TheNavigationForCreate from "@/components/TheNavigationForCreate.vue";
 const counter = useCounterStore();
 
 const name = ref("");
 const email = ref("");
+const emailInputTouched = ref(false);
 
 const isValidEmail = computed(() => {
+  if (!emailInputTouched.value) {
+    return true;
+  }
   const re = /\S+@\S+\.\S+/;
   return re.test(email.value);
 });
 </script>
 
 <template>
+  <TheNavigationForCreate />
   <div>
     <form class="row g-3">
       <div class="mb-3">
@@ -32,6 +37,7 @@ const isValidEmail = computed(() => {
         <label for="name" class="form-label">Email</label>
         <input
           v-model="email"
+          @input="emailInputTouched = true"
           type="email"
           class="form-control"
           id="name"

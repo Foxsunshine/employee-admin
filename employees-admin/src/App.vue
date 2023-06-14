@@ -1,10 +1,7 @@
-<script setup>
-import TheNavigation from './components/TheNavigation.vue';
-</script>
+<script setup></script>
 
 <template>
   <div class="container">
-    <TheNavigation />
     <router-view></router-view>
   </div>
 </template>

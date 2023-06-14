@@ -2,12 +2,14 @@
 import { useCounterStore } from "@/stores/counter";
 import RegisterButton from "../components/RegisterButton.vue";
 import CancelButton from "../components/CancelButton.vue";
+import TheNavigationForUpdateConfirm from "@/components/TheNavigationForUpdateConfirm.vue";
 
 const counter = useCounterStore();
 
 console.log(counter.newData.name, counter.newData.email);
 </script>
 <template>
+  <TheNavigationForUpdateConfirm />
   <div>
     <form class="row g-3">
       <div class="mb-3">

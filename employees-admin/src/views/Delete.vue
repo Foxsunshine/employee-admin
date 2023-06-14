@@ -4,27 +4,13 @@ import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
 import DeleteButton from "../components/DeleteButton.vue";
-// import { getItem, setItem, removeItem } from "@/stores/storage.js";
-
+import TheNavigationForDelete from "@/components/TheNavigationForDelete.vue";
 const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
-
-// onMounted(() => {
-//   // 从 localStorage 中读取数据
-//   const data = getItem("counterData");
-//   if (data) {
-//     // 从 localStorage 中恢复数据
-//     counter.newData = data;
-//   }
-// });
-
-// onUnmounted(() => {
-//   // 当组件卸载时，将数据存储到 localStorage 中
-//   setItem("counterData", counter.newData);
-// });
 </script>
 <template>
+  <TheNavigationForDelete />
   <div>
     <form class="row g-3">
       <div class="mb-3">

@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
 import ConfirmButton from "../components/ConfirmButton.vue";
-
+import TheNavigationForUpdate from "@/components/TheNavigationForUpdate.vue";
 const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
@@ -12,8 +12,18 @@ const counter = useCounterStore();
 const id = ref(counter.updateId);
 const name = ref(counter.newData.name);
 const email = ref(counter.newData.email);
+const emailInputTouched = ref(false);
+
+const isValidEmail = computed(() => {
+  if (!emailInputTouched.value) {
+    return true;
+  }
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email.value);
+});
 </script>
 <template>
+  <TheNavigationForUpdate />
   <div>
     <form class="row g-3">
       <div class="mb-3">
@@ -32,10 +42,22 @@ const email = ref(counter.newData.email);
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Email</label>
-        <input v-model="email" type="email" class="form-control" id="name" />
+        <input
+          v-model="email"
+          @input="emailInputTouched = true"
+          type="email"
+          class="form-control"
+          id="name"
+        />
+        <p v-if="!isValidEmail" style="color: red">
+          Please enter a valid email.
+        </p>
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton @click="counter.setNewData(name, email)" />
+        <ConfirmButton
+          @click="counter.setNewData(name, email)"
+          :disabled="!isValidEmail"
+        />
         <CancelButton />
       </div>
     </form>
