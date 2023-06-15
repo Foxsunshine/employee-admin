@@ -8,6 +8,14 @@ import TheNavigationForDelete from "@/components/TheNavigationForDelete.vue";
 const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
+
+const id = ref(route.params.id);
+const newData = ref({});
+
+onMounted(async () => {
+  await counter.loadData();
+  newData.value = counter.allDatas.find((data) => data.id == id.value);
+});
 </script>
 <template>
   <TheNavigationForDelete />
@@ -19,7 +27,7 @@ const counter = useCounterStore();
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="counter.deleteId"
+          :value="id"
         />
       </div>
       <div class="mb-3">
@@ -28,7 +36,7 @@ const counter = useCounterStore();
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="counter.newData.name"
+          :value="newData.name"
         />
       </div>
       <div class="mb-3">
@@ -37,7 +45,7 @@ const counter = useCounterStore();
           readonly
           type="text"
           class="form-control-plaintext"
-          :value="counter.newData.email"
+          :value="newData.email"
         />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">

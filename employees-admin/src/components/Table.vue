@@ -94,6 +94,7 @@ function setUpdateData(id, name, email) {
       <thead>
         <tr>
           <th scope="col">ID</th>
+          <th scope="col">アイコン</th>
           <th scope="col">名前</th>
           <th scope="col">メールアドレス</th>
           <th scope="col">削除</th>
@@ -103,18 +104,24 @@ function setUpdateData(id, name, email) {
       <tbody>
         <tr v-for="data in displayedData" :key="data.id">
           <td>{{ data.id }}</td>
+          <td>
+            <img
+              :src="'data:' + 'image/jpg' + ';base64,' + data.base64Image"
+              class="img-fluid rounded-circle"
+            />
+          </td>
           <td>{{ data.name }}</td>
           <td>{{ data.email }}</td>
           <td>
             <router-link
-              to="/delete"
+              :to="{ name: 'delete', params: { id: data.id } }"
               @click="setDeleteData(data.id, data.name, data.email)"
               ><h4>🗑️</h4></router-link
             >
           </td>
           <td>
             <router-link
-              to="update"
+              :to="{ name: 'update', params: { id: data.id } }"
               @click="setUpdateData(data.id, data.name, data.email)"
               ><h4>✏️</h4></router-link
             >
@@ -163,42 +170,54 @@ function setUpdateData(id, name, email) {
 </template>
 
 <style scoped>
+img {
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
+}
 .table {
   table-layout: fixed;
   word-wrap: break-word;
 }
 
 .table tr {
+  width: 800px;
   min-height: 1.25em;
 }
 #myTable {
-  width: 780px;
-  height: 575px;
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 650px;
 }
 
 /* 调整每一列的宽度 */
 .table th:nth-child(1),
 .table td:nth-child(1) {
-  width: 10%;
+  width: 9%;
 }
 
 .table th:nth-child(2),
 .table td:nth-child(2) {
-  width: 30%;
+  width: 15%;
 }
 
 .table th:nth-child(3),
 .table td:nth-child(3) {
-  width: 40%;
+  width: 20%;
 }
 
 .table th:nth-child(4),
 .table td:nth-child(4) {
-  width: 10%;
+  width: 40%;
 }
 
 .table th:nth-child(5),
 .table td:nth-child(5) {
+  width: 10%;
+}
+.table th:nth-child(6),
+.table td:nth-child(6) {
   width: 10%;
 }
 

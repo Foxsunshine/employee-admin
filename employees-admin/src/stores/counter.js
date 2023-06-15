@@ -39,6 +39,7 @@ export const useCounterStore = defineStore({
         })
         .then((jsonData) => {
           this.allDatas = jsonData;
+          console.log("successfully download..");
           console.log(this.allDatas);
           return this.allDatas;
         })

@@ -17,9 +17,9 @@ const routes = [
     component: () => import("@/views/Create.vue"),
   },
   { path: "/create_confirm", name: "create_confirm", component: CreateConfirm },
-  { path: "/update", name: "update", component: Update },
+  { path: "/update/:id", name: "update", component: Update },
   { path: "/update_confirm", name: "update_confirm", component: UpdateConfirm },
-  { path: "/delete", name: "delete", component: Delete },
+  { path: "/delete/:id", name: "delete", component: Delete },
 ];
 
 const router = createRouter({

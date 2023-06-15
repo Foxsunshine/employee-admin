@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
@@ -9,9 +9,14 @@ const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
 
-const id = ref(counter.updateId);
-const name = ref(counter.newData.name);
-const email = ref(counter.newData.email);
+const id = ref(route.params.id);
+const newData = ref({});
+
+onMounted(async () => {
+  await counter.loadData();
+  newData.value = counter.allDatas.find((data) => data.id == id.value);
+});
+
 const emailInputTouched = ref(false);
 
 const isValidEmail = computed(() => {
@@ -21,6 +26,11 @@ const isValidEmail = computed(() => {
   const re = /\S+@\S+\.\S+/;
   return re.test(email.value);
 });
+
+function setData() {
+  counter.setUpdateId(id);
+  counter.setNewData(newData.value.name, newData.value.email);
+}
 </script>
 <template>
   <TheNavigationForUpdate />
@@ -38,12 +48,17 @@ const isValidEmail = computed(() => {
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
-        <input v-model="name" type="text" class="form-control" id="name" />
+        <input
+          v-model="newData.name"
+          type="text"
+          class="form-control"
+          id="name"
+        />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Email</label>
         <input
-          v-model="email"
+          v-model="newData.email"
           @input="emailInputTouched = true"
           type="email"
           class="form-control"
@@ -54,10 +69,7 @@ const isValidEmail = computed(() => {
         </p>
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton
-          @click="counter.setNewData(name, email)"
-          :disabled="!isValidEmail"
-        />
+        <ConfirmButton @click="setData()" :disabled="!isValidEmail" />
         <CancelButton />
       </div>
     </form>
