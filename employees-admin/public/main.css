@@ -29,16 +29,6 @@ a:visited {
     max-width: 960px;
 }
 
-/* Home */
-.home img {
-    max-width: 230px;
-}
-
-.home .destinations {
-    display: flex;
-    justify-content: space-between;
-}
-
 /* Navigation */
 #nav {
     position: fixed;
@@ -82,64 +72,6 @@ a {
     font-weight: bold;
 }
 
-/* Destination Details */
-.destination-details {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-}
-
-.destination-details img {
-    border-radius: 4px;
-    border: 3px solid white;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-}
-
-/*Experiences*/
-.experiences {
-    padding-top: 30px;
-    padding-bottom: 60px;
-    margin-top: 30px;
-    border-top: 1px solid #d4d4d4;
-    box-shadow: 0px -1px #fbfbfb;
-}
-
-.experiences .card {
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
-    transition: 0.2s ease transform;
-}
-
-.experiences .card:hover {
-    transform: scale(1.05);
-}
-
-.experiences .cards {
-    display: flex;
-    gap: 20px;
-    text-align: center;
-}
-
-.experiences img {
-    width: 250px;
-    height: 150px;
-    object-fit: cover;
-    display: block;
-}
-
-.experiences .card .card__text {
-    background: 505050;
-    color: white;
-    display: block;
-    border-top: 2px solid #777777;
-    padding: 10px;
-}
-
-.experience-details img {
-    float: left;
-    margin: 10px;
-}
 
 /*Modal Overlay*/
 .modal-overlay:before {
@@ -207,3 +139,9 @@ display: flex;
 .justify-content-md-center{
     justify-content: center;
 }
+
+img {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+  }

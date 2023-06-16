@@ -29,7 +29,11 @@ const isValidEmail = computed(() => {
 
 function setData() {
   counter.setUpdateId(id);
-  counter.setNewData(newData.value.name, newData.value.email);
+  counter.setNewData(
+    newData.value.name,
+    newData.value.email,
+    newData.value.image
+  );
 }
 </script>
 <template>
@@ -67,6 +71,13 @@ function setData() {
         <p v-if="!isValidEmail" style="color: red">
           Please enter a valid email.
         </p>
+      </div>
+      <div class="mb-3">
+        <p>Image</p>
+        <img
+          :src="'http://localhost:8080/images/' + newData.image"
+          class="img-fluid rounded-circle"
+        />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <ConfirmButton @click="setData()" :disabled="!isValidEmail" />

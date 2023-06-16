@@ -24,6 +24,13 @@ console.log(counter.newData.name, counter.newData.email);
         <p>Email</p>
         <p>{{ counter.newData.email }}</p>
       </div>
+      <div class="mb-3">
+        <p>Image</p>
+        <img
+          :src="'http://localhost:8080/images/' + counter.newData.image"
+          class="img-fluid rounded-circle"
+        />
+      </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <RegisterButton />
         <CancelButton />

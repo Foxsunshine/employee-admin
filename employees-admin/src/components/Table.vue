@@ -85,6 +85,8 @@ function setUpdateData(id, name, email) {
   counter.setNewData(name, email);
   counter.setConfirmToUpdate();
 }
+
+// console.log()
 </script>
 
 <template>
@@ -106,7 +108,7 @@ function setUpdateData(id, name, email) {
           <td>{{ data.id }}</td>
           <td>
             <img
-              :src="'data:' + 'image/jpg' + ';base64,' + data.base64Image"
+              :src="'http://localhost:8080/images/' + data.image"
               class="img-fluid rounded-circle"
             />
           </td>

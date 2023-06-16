@@ -23,7 +23,4 @@ public class Employees {
     @Column(name = "image")
     private String image;
 
-    @Transient // 这个注解表示这个字段并不对应数据库中的任何列
-    private String base64Image;
-
 }

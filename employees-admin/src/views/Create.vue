@@ -17,6 +17,11 @@ const isValidEmail = computed(() => {
   const re = /\S+@\S+\.\S+/;
   return re.test(email.value);
 });
+
+function setData() {
+  counter.setNewData(name.value, email.value);
+  counter.setConfirmToCreate();
+}
 </script>
 
 <template>
@@ -47,11 +52,19 @@ const isValidEmail = computed(() => {
           Please enter a valid email.
         </p>
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton
-          @click="counter.setNewData(name, email)"
-          :disabled="!isValidEmail"
+
+      <div class="mb-3">
+        <label for="image" class="form-label">アイコン</label>
+        <input
+          type="file"
+          class="form-control"
+          id="image"
+          @change="counter.uploadFile"
         />
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <ConfirmButton @click="setData()" :disabled="!isValidEmail" />
         <CancelButton />
       </div>
     </form>

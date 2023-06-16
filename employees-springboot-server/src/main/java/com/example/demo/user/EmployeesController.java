@@ -30,7 +30,8 @@ public class EmployeesController {
     public String createName(@RequestBody Map<String, String> body) {
         String name = body.get("name");
         String email = body.get("email");
-        respository.createEmployee(name, email);
+        String image = body.get("image");
+        respository.createEmployee(name, email, image);
         return "successfully insert";
     }
 

@@ -4,7 +4,6 @@ const props = defineProps({
   disabled: Boolean,
 });
 const counter = useCounterStore();
-console.log(props.disabled);
 </script>
 
 <template>

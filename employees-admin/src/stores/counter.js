@@ -11,7 +11,7 @@ export const useCounterStore = defineStore({
     postUrl: "http://localhost:8080/api/create",
     updateUrl: "http://localhost:8080/api/update/",
     deleteUrl: "http://localhost:8080/api/delete/",
-
+    uploadImgUrl: "http://localhost:8080/upload",
     //用于加载所有数据
     allDatas: {},
 
@@ -23,6 +23,7 @@ export const useCounterStore = defineStore({
     newData: {
       name: "",
       email: "",
+      image: "",
     },
   }),
 
@@ -39,8 +40,6 @@ export const useCounterStore = defineStore({
         })
         .then((jsonData) => {
           this.allDatas = jsonData;
-          console.log("successfully download..");
-          console.log(this.allDatas);
           return this.allDatas;
         })
         .catch((err) => console.error(err));
@@ -61,6 +60,25 @@ export const useCounterStore = defineStore({
         .catch((error) => console.error("Error:", error));
     },
 
+    uploadFile(event) {
+      console.log("uploading image....");
+      let file = event.target.files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+
+      fetch(this.uploadImgUrl, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.text())
+        .then((path) => {
+          this.newData.image = path;
+          console.log(this.newData.image);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     //更新数据库数据
     updateData() {
       console.log("updating...");
@@ -107,9 +125,17 @@ export const useCounterStore = defineStore({
       this.deleteId = id;
     },
     //用于更新数据
-    setNewData(name, email) {
+    setNewData(name, email, image) {
       this.newData.name = name;
       this.newData.email = email;
+      this.newData.image = image;
+    },
+
+    setNewImage(img) {
+      this.newImage = img;
+    },
+    setTempImgUrl(url) {
+      this.tempUrl = url;
     },
   },
 });

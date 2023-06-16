@@ -10,8 +10,13 @@ public interface EmployeesRespository extends JpaRepository<Employees, Integer> 
 
     @Modifying
     @Transactional
-    @Query(value = "insert into employees(name,email) values(?1,?2) ", nativeQuery = true)
-    void createEmployee(String name, String email);
+    @Query(value = "insert into employees(name,email,image) values(?1,?2,?3) ", nativeQuery = true)
+    void createEmployee(String name, String email, String image);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into employees(image) values(?1) ", nativeQuery = true)
+    void createEmployeeWithImg(String image);
 
     @Modifying
     @Transactional
