@@ -5,8 +5,6 @@ import CancelButton from "../components/CancelButton.vue";
 import TheNavigationForUpdateConfirm from "@/components/TheNavigationForUpdateConfirm.vue";
 
 const counter = useCounterStore();
-
-console.log(counter.newData.name, counter.newData.email);
 </script>
 <template>
   <TheNavigationForUpdateConfirm />

@@ -22,25 +22,29 @@ onMounted(async () => {
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-//应该被优化的翻页功能
+// Pagination feature that should be refatoring
+// 最適化されるべきページング機能
 
-// 实现翻页
 const currentPage = ref(1);
 const itemsPerPage = ref(10);
+// Maximum number of visible pages
+// 表示可能なページの最大数
+const maxVisibleButtons = ref(3);
 
-//哪十个元素被展示
+// Which ten elements are displayed
+// 表示されている10個の要素
 const displayedData = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
   const end = start + itemsPerPage.value;
   return datas.value.slice(start, end);
 });
 
-//到下一页
+// page　movingmennt
+// ページ遷移
 const nextPage = () => {
   if (currentPage.value * itemsPerPage.value < datas.value.length) {
     currentPage.value++;
     nextButton.value.blur();
-    console.log(currentPage.value);
   }
 };
 const previousPage = () => {
@@ -54,18 +58,29 @@ const lastPage = () => {
   lastButton.value.blur();
 };
 
-//计算总的页码数量
+// Calculate the total number of pages
+// ページの合計数を計算する
 const totalPages = computed(() => {
   return Math.ceil(datas.value.length / itemsPerPage.value);
 });
-//最大可见页码数量
-const maxVisibleButtons = ref(3);
 
+// the first page that is showed
+// 表示されている最小ページの数字を計算する
 const startPage = computed(() => {
   let start = currentPage.value - Math.floor(maxVisibleButtons.value / 2);
   return Math.max(start, 1);
 });
 
+// To count all the pages that should be shown
+// 表示すべき全ページを数える
+// When the page numbers is less than 3
+// ページ数が3未満の場合
+// Show all the page.. and do not show the "..."
+// 全てのページを表示し、「...」は表示しない
+// When the page numbers is more than 3
+// ページ数が3以上の場合
+// Show the maxVisibleButtons(3) and show the "..." if needed
+// 必要に応じてmaxVisibleButtons(3)を表示し、「...」を表示する
 const pages = computed(() => {
   const range = [];
   for (
@@ -81,21 +96,24 @@ const pages = computed(() => {
   }
   return range;
 });
+
+// pagination end
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-// 向确认删除页面设置stores里的数据
+// Set the data in the stores to the confirmation deletion page
+// 確認削除ページにストア内のデータを設定する
 function setDeleteData(id, name, email) {
   counter.setDeleteId(id);
   counter.setNewData(name, email);
 }
+// Set the data to be updated
+// 更新するデータを設定する
 function setUpdateData(id, name, email) {
   counter.setUpdateId(id);
   counter.setNewData(name, email);
   counter.setConfirmToUpdate();
 }
-
-// console.log()
 </script>
 
 <template>
@@ -195,30 +213,15 @@ function setUpdateData(id, name, email) {
 
 <style scoped>
 img {
-  object-fit: cover;
   width: 40px;
   height: 40px;
 }
-.table {
-  table-layout: fixed;
-  word-wrap: break-word;
-}
 
-.table tr {
-  width: 800px;
-  min-height: 1.25em;
-}
-#myTable {
-  display: flex;
-  flex-direction: column;
-  width: 800px;
-  height: 650px;
-}
-
-/* 调整每一列的宽度 */
+/* Set the width of each column in the table */
+/* テーブル内の各列の幅を設定 */
 .table th:nth-child(1),
 .table td:nth-child(1) {
-  width: 9%;
+  width: 10%;
 }
 
 .table th:nth-child(2),
@@ -233,7 +236,7 @@ img {
 
 .table th:nth-child(4),
 .table td:nth-child(4) {
-  width: 40%;
+  width: 39%;
 }
 
 .table th:nth-child(5),
@@ -245,39 +248,44 @@ img {
   width: 10%;
 }
 
-/* 改变所有 .btn 类的背景颜色和文本颜色 */
+/*
+ Rebuild pagination
+ ページネーションを再構築
+ Change the default color of bootstrap
+*/
+
+.pagination {
+  position: relative;
+}
 .btn {
   background-color: #373737 !important;
   color: #373737 !important;
 }
 
-/* 改变所有 .btn 类的 hover 和 focus 状态的背景颜色和文本颜色 */
 .btn:hover,
 .btn:focus {
   background-color: #3d3d3d !important;
   color: #3d3d3d !important;
 }
 
-/* 改变所有 .page-link 类的背景颜色和文本颜色 */
 .page-link {
   color: #373737 !important;
 }
 
-/* 改变所有 .page-link 类的 hover 和 focus 状态的背景颜色和文本颜色 */
 .page-link:hover,
 .page-link:focus {
   color: #3d3d3d !important;
 }
 
+.page-item.active .page-link {
+  background-color: #e9e9e9 !important;
+  border-color: #e9e9e9 !important;
+}
+
 .content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-
-.page-item.active .page-link {
-  background-color: #e9e9e9 !important; /* 使用你需要的颜色 */
-  border-color: #e9e9e9 !important; /* 使用你需要的颜色 */
+  width: 800px;
 }
 </style>

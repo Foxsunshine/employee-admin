@@ -7,11 +7,4 @@
     </router-link>
   </div>
 </template>
-<style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style scoped></style>

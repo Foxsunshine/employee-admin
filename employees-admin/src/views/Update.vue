@@ -3,9 +3,8 @@ import { ref, computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
-import ConfirmButton from "../components/ConfirmButton.vue";
+import ConfirmButton from "@/components/ConfirmButton.vue";
 import TheNavigationForUpdate from "@/components/TheNavigationForUpdate.vue";
-const router = useRouter();
 const route = useRoute();
 const counter = useCounterStore();
 
@@ -27,6 +26,12 @@ const isValidEmail = computed(() => {
   return re.test(email.value);
 });
 
+const imgUrl = computed(() => {
+  return newData.value.image
+    ? "http://localhost:8080/images/" + newData.value.image
+    : "http://localhost:8080/images/1.jpeg";
+});
+
 function setData() {
   counter.setUpdateId(id);
   counter.setNewData(
@@ -42,13 +47,7 @@ function setData() {
     <form class="row g-3">
       <div class="mb-3">
         <label for="name" class="form-label">Id</label>
-        <input
-          readonly
-          type="text"
-          class="form-control-plaintext"
-          id="name"
-          :value="id"
-        />
+        <p class="form-control-plaintext">{{ id }}</p>
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
@@ -74,10 +73,7 @@ function setData() {
       </div>
       <div class="mb-3">
         <p>Image</p>
-        <img
-          :src="'http://localhost:8080/images/' + newData.image"
-          class="img-fluid rounded-circle"
-        />
+        <img :src="imgUrl" class="img-fluid rounded-circle" />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <ConfirmButton @click="setData()" :disabled="!isValidEmail" />

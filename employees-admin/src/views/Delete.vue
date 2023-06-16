@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
@@ -11,6 +11,12 @@ const counter = useCounterStore();
 
 const id = ref(route.params.id);
 const newData = ref({});
+
+const imgUrl = computed(() => {
+  return newData.value.image
+    ? "http://localhost:8080/images/" + newData.value.image
+    : "http://localhost:8080/images/1.jpeg";
+});
 
 onMounted(async () => {
   await counter.loadData();
@@ -50,10 +56,7 @@ onMounted(async () => {
       </div>
       <div class="mb-3">
         <p>Image</p>
-        <img
-          :src="'http://localhost:8080/images/' + newData.image"
-          class="img-fluid rounded-circle"
-        />
+        <img :src="imgUrl" class="img-fluid rounded-circle" />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <DeleteButton />

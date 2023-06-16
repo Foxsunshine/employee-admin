@@ -1,35 +1,42 @@
 import { defineStore } from "pinia";
 
 export const useCounterStore = defineStore({
-  // 唯一的 id
   id: "counter",
-
-  // store 的 state
   state: () => ({
-    confirmTo: "",
+    // Used for manage all the api
     getUrl: "http://localhost:8080/api/employees",
     postUrl: "http://localhost:8080/api/create",
     updateUrl: "http://localhost:8080/api/update/",
     deleteUrl: "http://localhost:8080/api/delete/",
     uploadImgUrl: "http://localhost:8080/upload",
-    //用于加载所有数据
+
+    // Used for loading all data
+    // すべてのデータをロードする
     allDatas: {},
 
-    //用于更新时储存id
+    // Used for storing id when updating
+    // 更新時にIDを保存する
     updateId: 0,
-    //用于更新时储存id
+    // Used for storing id when deleting
+    // 削除時にIDを保存する
     deleteId: 0,
-    //用于创建，更新数据
+
+    // Used for creating, updating data
+    // データの作成、更新に使用
     newData: {
-      name: "",
-      email: "",
-      image: "",
+      name: "aiful",
+      email: "aiful@aiful.com",
+      image: "1.jpeg",
     },
+
+    // Used for manage the "Confirm" button should navigate to.
+    // "Confirm"ボタンがナビゲートすべき場所を管理する
+    confirmTo: "",
   }),
 
-  // store 的 actions
   actions: {
-    //用于加载数据库现有数据
+    // Loading existing data in the database
+    // データベースの既存データをロードする
     loadData() {
       return fetch(this.getUrl)
         .then((res) => {
@@ -45,9 +52,9 @@ export const useCounterStore = defineStore({
         .catch((err) => console.error(err));
     },
 
-    //用于向数据库插入新数据
+    // Inserting new data into the database
+    // データベースに新データを挿入する
     insertData() {
-      console.log("uploading...");
       fetch(this.postUrl, {
         method: "POST",
         headers: {
@@ -56,12 +63,13 @@ export const useCounterStore = defineStore({
         body: JSON.stringify(this.newData),
       })
         .then((response) => response.text())
-        .then((newData) => console.log(newData))
+        .then((msg) => console.log(msg))
         .catch((error) => console.error("Error:", error));
     },
 
+    // Function to handle Image uploads
+    // 画像アップロードを処理する関数
     uploadFile(event) {
-      console.log("uploading image....");
       let file = event.target.files[0];
       let formData = new FormData();
       formData.append("file", file);
@@ -73,13 +81,14 @@ export const useCounterStore = defineStore({
         .then((response) => response.text())
         .then((path) => {
           this.newData.image = path;
-          console.log(this.newData.image);
         })
         .catch((error) => {
           console.error(error);
         });
     },
-    //更新数据库数据
+
+    // Updating data in the database
+    // データベースのデータを更新する
     updateData() {
       console.log("updating...");
       const updateUrl = this.updateUrl + this.updateId.toString();
@@ -96,7 +105,8 @@ export const useCounterStore = defineStore({
         .catch((error) => console.error("Error:", error));
     },
 
-    //删除数据库数据
+    // Deleting data in the database
+    // データベースからデータを削除する
     deleteData() {
       console.log("deleting...");
       const deleteUrl = this.deleteUrl + this.deleteId.toString();
@@ -109,7 +119,8 @@ export const useCounterStore = defineStore({
         .catch((error) => console.error("Error:", error));
     },
 
-    // 用于“确认”按键导向哪个页面。
+    // Determining where the "Confirm" button should navigate to.
+    // "Confirm"ボタンがナビゲートする場所を決定する
     setConfirmToCreate() {
       this.confirmTo = "create";
     },
@@ -117,25 +128,27 @@ export const useCounterStore = defineStore({
       this.confirmTo = "update";
     },
 
-    //更新当前id
+    // the current updating id
+    // 現在更新中のID
     setUpdateId(id) {
       this.updateId = id;
     },
+    // the current deleting id
+    // 現在削除中のID
     setDeleteId(id) {
       this.deleteId = id;
     },
-    //用于更新数据
+    // set the updating new data
+    // 更新する新しいデータを設定する
     setNewData(name, email, image) {
       this.newData.name = name;
       this.newData.email = email;
       this.newData.image = image;
     },
-
+    // set the updating new img
+    // 更新する新しい画像を設定する
     setNewImage(img) {
       this.newImage = img;
-    },
-    setTempImgUrl(url) {
-      this.tempUrl = url;
     },
   },
 });

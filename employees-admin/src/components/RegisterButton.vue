@@ -1,7 +1,6 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
 const counter = useCounterStore();
-console.log(counter.confirmTo);
 </script>
 
 <template>

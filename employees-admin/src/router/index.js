@@ -1,6 +1,5 @@
 import Home from "@/views/Home.vue";
 import Employees from "@/views/Employees.vue";
-// import Create from "@/views/Create.vue";
 import CreateConfirm from "@/views/CreateConfirm.vue";
 import Update from "@/views/Update.vue";
 import UpdateConfirm from "@/views/UpdateConfirm.vue";

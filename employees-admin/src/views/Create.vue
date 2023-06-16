@@ -19,7 +19,7 @@ const isValidEmail = computed(() => {
 });
 
 function setData() {
-  counter.setNewData(name.value, email.value);
+  counter.setNewData(name.value, email.value, counter.newData.image);
   counter.setConfirmToCreate();
 }
 </script>
@@ -52,7 +52,6 @@ function setData() {
           Please enter a valid email.
         </p>
       </div>
-
       <div class="mb-3">
         <label for="image" class="form-label">アイコン</label>
         <input
@@ -62,7 +61,6 @@ function setData() {
           @change="counter.uploadFile"
         />
       </div>
-
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <ConfirmButton @click="setData()" :disabled="!isValidEmail" />
         <CancelButton />
@@ -70,9 +68,4 @@ function setData() {
     </form>
   </div>
 </template>
-<style scoped>
-label {
-  text-align: start;
-  justify-content: start;
-}
-</style>
+<style scoped></style>
