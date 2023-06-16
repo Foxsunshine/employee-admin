@@ -1,9 +1,5 @@
 import Home from "@/views/Home.vue";
 import Employees from "@/views/Employees.vue";
-import CreateConfirm from "@/views/CreateConfirm.vue";
-import Update from "@/views/Update.vue";
-import UpdateConfirm from "@/views/UpdateConfirm.vue";
-import Delete from "@/views/Delete.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -15,10 +11,31 @@ const routes = [
     name: "create",
     component: () => import("@/views/Create.vue"),
   },
-  { path: "/create_confirm", name: "create_confirm", component: CreateConfirm },
-  { path: "/update/:id", name: "update", component: Update },
-  { path: "/update_confirm", name: "update_confirm", component: UpdateConfirm },
-  { path: "/delete/:id", name: "delete", component: Delete },
+  {
+    path: "/create_confirm",
+    name: "create_confirm",
+    component: () => import("@/views/CreateConfirm.vue"),
+  },
+  {
+    path: "/update/:id",
+    name: "update",
+    component: () => import("@/views/Update.vue"),
+  },
+  {
+    path: "/update_confirm",
+    name: "update_confirm",
+    component: () => import("@/views/UpdateConfirm.vue"),
+  },
+  {
+    path: "/delete/:id",
+    name: "delete",
+    component: () => import("@/views/Delete.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -284,6 +284,7 @@ img {
 
 .content {
   display: flex;
+  margin-top: 100px;
   flex-direction: column;
   align-items: center;
   width: 800px;
