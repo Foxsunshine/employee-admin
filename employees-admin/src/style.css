@@ -59,7 +59,37 @@ img {
   flex-direction: column;
   align-items: center;
 }
-
+.label-title {
+  color: #707070;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.confirm-msg{
+  font-weight: bold;
+  text-decoration: underline;
+}
+/* Confirm Page */
+.msgContainer > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+.subTitle {
+  font-size: 15px;
+  margin: 30px auto 40px auto;
+  margin-bottom: 12px;
+}
+.button-container {
+  display: flex !important;
+  justify-content: space-between;
+  gap: 10px;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+}
 /* Navigation */
 #nav {
   position: fixed;

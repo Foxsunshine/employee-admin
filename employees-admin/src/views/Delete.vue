@@ -27,42 +27,32 @@ onMounted(async () => {
   <TheNavigationForDelete />
   <div>
     <form class="row g-3">
-      <div class="mb-3">
-        <label for="name" class="form-label">Id</label>
-        <input
-          readonly
-          type="text"
-          class="form-control-plaintext"
-          :value="id"
-        />
+      <div class="msgContainer">
+        <div class="mb-3">
+          <p class="label-title">id</p>
+          <p class="confirm-msg">{{ id }}</p>
+        </div>
+        <div class="mb-3">
+          <p class="label-title">名前</p>
+          <p class="confirm-msg">{{ newData.name }}</p>
+        </div>
+        <div class="mb-3">
+          <p class="label-title">メールアドレス</p>
+          <p class="confirm-msg">{{ newData.email }}</p>
+        </div>
+        <div class="mb-3">
+          <p class="label-title">プロフィール画像</p>
+          <img :src="imgUrl" class="img-fluid rounded-circle" />
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="name" class="form-label">名前</label>
-        <input
-          readonly
-          type="text"
-          class="form-control-plaintext"
-          :value="newData.name"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="name" class="form-label">Email</label>
-        <input
-          readonly
-          type="text"
-          class="form-control-plaintext"
-          :value="newData.email"
-        />
-      </div>
-      <div class="mb-3">
-        <p>Image</p>
-        <img :src="imgUrl" class="img-fluid rounded-circle" />
-      </div>
+    </form>
+    <div class="box">
+      <p class="subTitle">こちらのダー田を削除します。本当によろしいですか？</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <DeleteButton />
         <CancelButton />
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <style scoped>

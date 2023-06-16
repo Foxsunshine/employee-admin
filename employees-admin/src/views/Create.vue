@@ -39,7 +39,7 @@ function setData() {
         />
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Email</label>
+        <label for="name" class="form-label">メールアドレス</label>
         <input
           v-model="email"
           @input="emailInputTouched = true"
@@ -49,7 +49,7 @@ function setData() {
           placeholder="Aiful@aiful.com"
         />
         <p v-if="!isValidEmail" style="color: red">
-          Please enter a valid email.
+          メールアドレスに使用不可な文字が含まれています
         </p>
       </div>
       <div class="mb-3">

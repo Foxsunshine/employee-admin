@@ -59,7 +59,7 @@ function setData() {
         />
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Email</label>
+        <label for="name" class="form-label">メールアドレス</label>
         <input
           v-model="newData.email"
           @input="emailInputTouched = true"
@@ -68,11 +68,11 @@ function setData() {
           id="name"
         />
         <p v-if="!isValidEmail" style="color: red">
-          Please enter a valid email.
+          メールアドレスに使用不可な文字が含まれています
         </p>
       </div>
       <div class="mb-3">
-        <p>Image</p>
+        <p>プロフィール画像</p>
         <img :src="imgUrl" class="img-fluid rounded-circle" />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
