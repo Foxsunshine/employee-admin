@@ -8,10 +8,12 @@ const counter = useCounterStore();
 
 let prevButton = ref(null);
 let nextButton = ref(null);
+let lastButton = ref(null);
 
 onMounted(() => {
   prevButton = ref(document.querySelector("#prevButton"));
   nextButton = ref(document.querySelector("#nextButton"));
+  lastButton = ref(document.querySelector("#lastButton"));
 });
 onMounted(async () => {
   datas.value = await counter.loadData();
@@ -45,9 +47,13 @@ const previousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
     prevButton.value.blur();
-    console.log(currentPage.value);
   }
 };
+const lastPage = () => {
+  currentPage.value = totalPages.value;
+  lastButton.value.blur();
+};
+
 //计算总的页码数量
 const totalPages = computed(() => {
   return Math.ceil(datas.value.length / itemsPerPage.value);
@@ -65,7 +71,10 @@ const pages = computed(() => {
   for (
     let i = startPage.value;
     i <=
-    Math.min(startPage.value + maxVisibleButtons.value - 1, totalPages.value);
+    Math.min(
+      startPage.value + maxVisibleButtons.value - 1,
+      totalPages.value - 1
+    );
     i++
   ) {
     range.push({ name: i, isDisabled: i === currentPage.value });
@@ -158,10 +167,23 @@ function setUpdateData(id, name, email) {
 
       <li
         class="page-item disabled"
-        v-if="startPage + maxVisibleButtons - 1 < totalPages"
+        v-if="startPage + maxVisibleButtons - 1 < totalPages - 1"
       >
         <span class="page-link">...</span>
       </li>
+
+      <li class="page-item" :class="{ active: currentPage === totalPages }">
+        <button
+          class="page-link"
+          type="button"
+          @click="lastPage"
+          ref="lastButton"
+          :disabled="currentPage === totalPages"
+        >
+          {{ totalPages }}
+        </button>
+      </li>
+
       <li class="page-item" :class="{ disabled: currentPage === totalPages }">
         <button class="page-link" @click="nextPage" ref="nextButton">
           &raquo;
