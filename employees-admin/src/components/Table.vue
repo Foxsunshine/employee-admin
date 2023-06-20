@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
+import Pagination from "./Pagination.vue";
 import { useCounterStore } from "@/stores/counter";
 import { HttpManager } from "@/api/index";
 
@@ -7,18 +8,10 @@ const displayedData = ref({});
 const isLoading = ref(true);
 const counter = useCounterStore();
 const currentPage = ref(1);
-// const itemsPerPage = ref(10);
-const totalPages = ref(0);
-const maxVisibleButtons = ref(3);
 
-let prevButton = ref(null);
-let nextButton = ref(null);
-let lastButton = ref(null);
+const totalPages = ref(0);
 
 onMounted(async () => {
-  prevButton = ref(document.querySelector("#prevButton"));
-  nextButton = ref(document.querySelector("#nextButton"));
-  lastButton = ref(document.querySelector("#lastButton"));
   HttpManager.getEmployees(currentPage.value - 1).then((result) => {
     displayedData.value = result.content;
     totalPages.value = result.totalPages;
@@ -34,42 +27,10 @@ watch(currentPage, async () => {
   });
 });
 
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    nextButton.value.blur();
-  }
+const handlePageChange = (newPage) => {
+  currentPage.value = newPage;
+  // 这里处理页码变化
 };
-const previousPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-    prevButton.value.blur();
-  }
-};
-// const lastPage = () => {
-//   currentPage.value = totalPages.value;
-//   lastButton.value.blur();
-// };
-
-const surroundingPages = 1;
-
-const startPage = computed(() => {
-  let start = currentPage.value - surroundingPages;
-  return Math.max(start, 2);
-});
-
-const endPage = computed(() => {
-  let end = currentPage.value + surroundingPages;
-  return Math.min(end, totalPages.value - 1);
-});
-
-const pages = computed(() => {
-  const range = [];
-  for (let i = startPage.value; i <= endPage.value; i++) {
-    range.push({ name: i, isDisabled: i === currentPage.value });
-  }
-  return range;
-});
 
 function setDeleteData(id, name, email) {
   counter.setDeleteId(id);
@@ -128,66 +89,11 @@ function setUpdateData(id, name, email) {
     <div v-if="totalPages === 1">
       <button class="page-link" type="button" disabled>1</button>
     </div>
-    <ul class="pagination" v-else>
-      <li class="page-item" :class="{ disabled: currentPage === 1 }">
-        <button class="page-link" @click="previousPage" ref="prevButton">
-          &laquo;
-        </button>
-      </li>
-      <li class="page-item" :class="{ active: currentPage === 1 }">
-        <button
-          class="page-link"
-          type="button"
-          :disabled="currentPage === 1"
-          @click="currentPage = 1"
-        >
-          1
-        </button>
-      </li>
-
-      <li class="page-item disabled" v-if="startPage > 2">
-        <span class="page-link">...</span>
-      </li>
-
-      <li
-        class="page-item"
-        v-for="page in pages"
-        :key="page.name"
-        :class="{ active: page.name === currentPage }"
-      >
-        <button
-          class="page-link"
-          type="button"
-          :disabled="page.isDisabled"
-          @click="currentPage = page.name"
-        >
-          {{ page.name }}
-        </button>
-      </li>
-
-      <li
-        class="page-item disabled"
-        v-if="startPage + maxVisibleButtons - 1 < totalPages - 1"
-      >
-        <span class="page-link">...</span>
-      </li>
-      <li class="page-item" :class="{ active: currentPage === totalPages }">
-        <button
-          class="page-link"
-          type="button"
-          :disabled="currentPage === totalPages"
-          @click="currentPage = totalPages"
-        >
-          {{ totalPages }}
-        </button>
-      </li>
-
-      <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-        <button class="page-link" @click="nextPage" ref="nextButton">
-          &raquo;
-        </button>
-      </li>
-    </ul>
+    <Pagination
+      :total-pages="totalPages"
+      :initial-page="1"
+      @update:currentPage="handlePageChange"
+    />
   </div>
 </template>
 
@@ -226,34 +132,6 @@ img {
 .table th:nth-child(6),
 .table td:nth-child(6) {
   width: 10%;
-}
-
-.pagination {
-  position: relative;
-}
-.btn {
-  background-color: #373737 !important;
-  color: #373737 !important;
-}
-
-.btn:hover,
-.btn:focus {
-  background-color: #3d3d3d !important;
-  color: #3d3d3d !important;
-}
-
-.page-link {
-  color: #373737 !important;
-}
-
-.page-link:hover,
-.page-link:focus {
-  color: #3d3d3d !important;
-}
-
-.page-item.active .page-link {
-  background-color: #e9e9e9 !important;
-  border-color: #e9e9e9 !important;
 }
 
 .content {
