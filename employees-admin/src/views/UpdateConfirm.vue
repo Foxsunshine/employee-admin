@@ -3,12 +3,13 @@ import { useCounterStore } from "@/stores/counter";
 import RegisterButton from "../components/RegisterButton.vue";
 import CancelButton from "../components/CancelButton.vue";
 import TheNavigationForUpdateConfirm from "@/components/TheNavigationForUpdateConfirm.vue";
+import { HttpManager } from "../api";
 
 const counter = useCounterStore();
 </script>
 <template>
   <TheNavigationForUpdateConfirm />
-  <div>
+  <div class="content">
     <form class="row g-3">
       <div class="msgContainer">
         <div class="mb-3">
@@ -35,7 +36,16 @@ const counter = useCounterStore();
     <div class="box">
       <p class="subTitle">上記の情報に編集します。よろしいですか？</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <RegisterButton />
+        <router-link to="/employees"
+          ><RegisterButton
+            @click="
+              HttpManager.updateEmployeeMsg(counter.updateId, {
+                name: counter.newData.name,
+                email: counter.newData.email,
+                image: counter.newData.image,
+              })
+            "
+        /></router-link>
         <CancelButton />
       </div>
     </div>

@@ -1,48 +1,41 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useCounterStore } from "@/stores/counter";
+import { HttpManager } from "@/api/index";
 
-const datas = ref({});
+const displayedData = ref({});
 const isLoading = ref(true);
 const counter = useCounterStore();
+const currentPage = ref(1);
+// const itemsPerPage = ref(10);
+const totalPages = ref(0);
+const maxVisibleButtons = ref(3);
 
 let prevButton = ref(null);
 let nextButton = ref(null);
 let lastButton = ref(null);
 
-onMounted(() => {
+onMounted(async () => {
   prevButton = ref(document.querySelector("#prevButton"));
   nextButton = ref(document.querySelector("#nextButton"));
   lastButton = ref(document.querySelector("#lastButton"));
-});
-onMounted(async () => {
-  datas.value = await counter.loadData();
-  isLoading.value = false;
-});
-
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-// Pagination feature that should be refatoring
-// 最適化されるべきページング機能
-
-const currentPage = ref(1);
-const itemsPerPage = ref(10);
-// Maximum number of visible pages
-// 表示可能なページの最大数
-const maxVisibleButtons = ref(3);
-
-// Which ten elements are displayed
-// 表示されている10個の要素
-const displayedData = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value;
-  const end = start + itemsPerPage.value;
-  return datas.value.slice(start, end);
+  HttpManager.getEmployees(currentPage.value - 1).then((result) => {
+    displayedData.value = result.content;
+    totalPages.value = result.totalPages;
+    isLoading.value = false; // loding is finished
+  });
 });
 
-// page　movingmennt
-// ページ遷移
+watch(currentPage, async () => {
+  isLoading.value = true;
+  HttpManager.getEmployees(currentPage.value - 1).then((result) => {
+    displayedData.value = result.content;
+    isLoading.value = false; // loding is finished
+  });
+});
+
 const nextPage = () => {
-  if (currentPage.value * itemsPerPage.value < datas.value.length) {
+  if (currentPage.value < totalPages.value) {
     currentPage.value++;
     nextButton.value.blur();
   }
@@ -53,62 +46,36 @@ const previousPage = () => {
     prevButton.value.blur();
   }
 };
-const lastPage = () => {
-  currentPage.value = totalPages.value;
-  lastButton.value.blur();
-};
+// const lastPage = () => {
+//   currentPage.value = totalPages.value;
+//   lastButton.value.blur();
+// };
 
-// Calculate the total number of pages
-// ページの合計数を計算する
-const totalPages = computed(() => {
-  return Math.ceil(datas.value.length / itemsPerPage.value);
-});
+const surroundingPages = 1;
 
-// the first page that is showed
-// 表示されている最小ページの数字を計算する
 const startPage = computed(() => {
-  let start = currentPage.value - Math.floor(maxVisibleButtons.value / 2);
-  return Math.max(start, 1);
+  let start = currentPage.value - surroundingPages;
+  return Math.max(start, 2);
 });
 
-// To count all the pages that should be shown
-// 表示すべき全ページを数える
-// When the page numbers is less than 3
-// ページ数が3未満の場合
-// Show all the page.. and do not show the "..."
-// 全てのページを表示し、「...」は表示しない
-// When the page numbers is more than 3
-// ページ数が3以上の場合
-// Show the maxVisibleButtons(3) and show the "..." if needed
-// 必要に応じてmaxVisibleButtons(3)を表示し、「...」を表示する
+const endPage = computed(() => {
+  let end = currentPage.value + surroundingPages;
+  return Math.min(end, totalPages.value - 1);
+});
+
 const pages = computed(() => {
   const range = [];
-  for (
-    let i = startPage.value;
-    i <=
-    Math.min(
-      startPage.value + maxVisibleButtons.value - 1,
-      totalPages.value - 1
-    );
-    i++
-  ) {
+  for (let i = startPage.value; i <= endPage.value; i++) {
     range.push({ name: i, isDisabled: i === currentPage.value });
   }
   return range;
 });
 
-// pagination end
-////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-// Set the data in the stores to the confirmation deletion page
-// 確認削除ページにストア内のデータを設定する
 function setDeleteData(id, name, email) {
   counter.setDeleteId(id);
   counter.setNewData(name, email);
 }
-// Set the data to be updated
-// 更新するデータを設定する
+
 function setUpdateData(id, name, email) {
   counter.setUpdateId(id);
   counter.setNewData(name, email);
@@ -158,15 +125,30 @@ function setUpdateData(id, name, email) {
         </tr>
       </tbody>
     </table>
-    <ul class="pagination">
+    <div v-if="totalPages === 1">
+      <button class="page-link" type="button" disabled>1</button>
+    </div>
+    <ul class="pagination" v-else>
       <li class="page-item" :class="{ disabled: currentPage === 1 }">
         <button class="page-link" @click="previousPage" ref="prevButton">
           &laquo;
         </button>
       </li>
-      <li class="page-item disabled" v-if="startPage > 1">
+      <li class="page-item" :class="{ active: currentPage === 1 }">
+        <button
+          class="page-link"
+          type="button"
+          :disabled="currentPage === 1"
+          @click="currentPage = 1"
+        >
+          1
+        </button>
+      </li>
+
+      <li class="page-item disabled" v-if="startPage > 2">
         <span class="page-link">...</span>
       </li>
+
       <li
         class="page-item"
         v-for="page in pages"
@@ -189,14 +171,12 @@ function setUpdateData(id, name, email) {
       >
         <span class="page-link">...</span>
       </li>
-
       <li class="page-item" :class="{ active: currentPage === totalPages }">
         <button
           class="page-link"
           type="button"
-          @click="lastPage"
-          ref="lastButton"
           :disabled="currentPage === totalPages"
+          @click="currentPage = totalPages"
         >
           {{ totalPages }}
         </button>
@@ -213,8 +193,8 @@ function setUpdateData(id, name, email) {
 
 <style scoped>
 img {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
 }
 
 /* Set the width of each column in the table */
@@ -247,12 +227,6 @@ img {
 .table td:nth-child(6) {
   width: 10%;
 }
-
-/*
- Rebuild pagination
- ページネーションを再構築
- Change the default color of bootstrap
-*/
 
 .pagination {
   position: relative;

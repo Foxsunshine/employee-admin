@@ -1,6 +1,6 @@
 package com.example.demo.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 // import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ import java.util.UUID;
 
 public class ImageController {
 
-    @Autowired
-    private EmployeesRespository respository;
+    // @Autowired
+    // private EmployeesRespository respository;
 
     @GetMapping("/images/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
@@ -40,24 +40,9 @@ public class ImageController {
         }
     }
 
-    // @PostMapping("/upload")
-    // public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile
-    // file) {
-    // try {
-    // // save file to the file system
-    // byte[] bytes = file.getBytes();
-    // Path path = Paths.get("file.upload-dir" + file.getOriginalFilename());
-    // Files.write(path, bytes);
-
-    // return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
-    // } catch (Exception e) {
-    // return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    // }
-    // }
-
     private static String UPLOAD_DIR = "img/";
 
-    @PostMapping("/upload")
+    @PostMapping("api/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             // 生成随机的文件名
@@ -74,7 +59,6 @@ public class ImageController {
             String fileLocation = fileName;
 
             // ... 保存 fileLocation 到数据库
-            // respository.createEmployeeWithImg(fileLocation);
 
             return fileLocation;
         } catch (Exception e) {

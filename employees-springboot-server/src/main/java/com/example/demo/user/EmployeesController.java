@@ -2,8 +2,9 @@ package com.example.demo.user;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,8 +24,18 @@ public class EmployeesController {
     @GetMapping("/employees")
     public List<Employees> getAllEmployees() {
         List<Employees> employees = respository.findAll();
-
         return employees;
+    }
+
+    @GetMapping("/employees/details")
+    public Page<Employees> getEmployees(@RequestParam(defaultValue = "0") int page) {
+        return respository.findAll(PageRequest.of(page, 10));
+    }
+
+    @GetMapping("/employees/{id}")
+    public Employees getEmployeeById(@PathVariable int id) {
+        Employees employee = respository.findEmployeeById(id);
+        return employee;
     }
 
     @PostMapping("create")

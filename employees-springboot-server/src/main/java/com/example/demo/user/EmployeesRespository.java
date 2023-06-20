@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface EmployeesRespository extends JpaRepository<Employees, Integer> {
+    @Query(value = "select * from employees where id = ?1 ", nativeQuery = true)
+    Employees findEmployeeById(int id);
 
     @Modifying
     @Transactional

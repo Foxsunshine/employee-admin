@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute, useRouter } from "vue-router";
+import { HttpManager } from "@/api/index";
 import CancelButton from "@/components/CancelButton.vue";
 import ConfirmButton from "@/components/ConfirmButton.vue";
 import TheNavigationForUpdate from "@/components/TheNavigationForUpdate.vue";
@@ -9,14 +10,18 @@ const route = useRoute();
 const counter = useCounterStore();
 
 const id = ref(route.params.id);
-const newData = ref({});
+const name = ref("");
+const email = ref("");
+const image = ref("");
+const emailInputTouched = ref(false);
 
 onMounted(async () => {
-  await counter.loadData();
-  newData.value = counter.allDatas.find((data) => data.id == id.value);
+  HttpManager.getEmployeeById(id.value).then((result) => {
+    name.value = result.name;
+    email.value = result.email;
+    image.value = result.image;
+  });
 });
-
-const emailInputTouched = ref(false);
 
 const isValidEmail = computed(() => {
   if (!emailInputTouched.value) {
@@ -27,23 +32,19 @@ const isValidEmail = computed(() => {
 });
 
 const imgUrl = computed(() => {
-  return newData.value.image
-    ? "http://localhost:8080/images/" + newData.value.image
+  return image.value
+    ? "http://localhost:8080/images/" + image.value
     : "http://localhost:8080/images/1.jpeg";
 });
 
 function setData() {
   counter.setUpdateId(id);
-  counter.setNewData(
-    newData.value.name,
-    newData.value.email,
-    newData.value.image
-  );
+  counter.setNewData(name, email, image);
 }
 </script>
 <template>
   <TheNavigationForUpdate />
-  <div>
+  <div class="content">
     <form class="row g-3">
       <div class="mb-3">
         <label for="name" class="form-label">Id</label>
@@ -51,17 +52,12 @@ function setData() {
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
-        <input
-          v-model="newData.name"
-          type="text"
-          class="form-control"
-          id="name"
-        />
+        <input v-model="name" type="text" class="form-control" id="name" />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">メールアドレス</label>
         <input
-          v-model="newData.email"
+          v-model="email"
           @input="emailInputTouched = true"
           type="email"
           class="form-control"
@@ -76,7 +72,10 @@ function setData() {
         <img :src="imgUrl" class="img-fluid rounded-circle" />
       </div>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <ConfirmButton @click="setData()" :disabled="!isValidEmail" />
+        <router-link to="/update_confirm" v-if="isValidEmail">
+          <ConfirmButton @click="setData()" />
+        </router-link>
+        <ConfirmButton v-else />
         <CancelButton />
       </div>
     </form>

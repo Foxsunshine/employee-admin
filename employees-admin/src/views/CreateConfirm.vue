@@ -1,14 +1,15 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import RegisterButton from "../components/RegisterButton.vue";
-import CancelButton from "../components/CancelButton.vue";
+import { HttpManager } from "@/api/index";
+import RegisterButton from "@/components/RegisterButton.vue";
+import CancelButton from "@/components/CancelButton.vue";
 import TheNavigationForCreateConfirm from "@/components/TheNavigationForCreateConfirm.vue";
 
 const counter = useCounterStore();
 </script>
 <template>
   <TheNavigationForCreateConfirm />
-  <div>
+  <div class="content">
     <form class="row g-3">
       <div class="msgContainer">
         <div class="mb-3">
@@ -33,7 +34,17 @@ const counter = useCounterStore();
     <div class="box">
       <p class="subTitle">上記の情報で新規登録をします。よろしいですか？</p>
       <div class="d-grid gap-2 button-container">
-        <RegisterButton />
+        <router-link to="/employees">
+          <RegisterButton
+            @click="
+              HttpManager.setEmployee({
+                name: counter.newData.name,
+                email: counter.newData.email,
+                image: counter.newData.image,
+              })
+            "
+          />
+        </router-link>
         <CancelButton />
       </div>
     </div>

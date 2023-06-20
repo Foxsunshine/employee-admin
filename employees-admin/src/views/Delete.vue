@@ -1,13 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import { useCounterStore } from "@/stores/counter";
-import { useRoute, useRouter } from "vue-router";
+import { HttpManager } from "@/api/index";
+import { useRoute } from "vue-router";
 import CancelButton from "@/components/CancelButton.vue";
-import DeleteButton from "../components/DeleteButton.vue";
+import DeleteButton from "@/components/DeleteButton.vue";
 import TheNavigationForDelete from "@/components/TheNavigationForDelete.vue";
-const router = useRouter();
 const route = useRoute();
-const counter = useCounterStore();
 
 const id = ref(route.params.id);
 const newData = ref({});
@@ -19,13 +17,14 @@ const imgUrl = computed(() => {
 });
 
 onMounted(async () => {
-  await counter.loadData();
-  newData.value = counter.allDatas.find((data) => data.id == id.value);
+  HttpManager.getEmployeeById(id.value).then((result) => {
+    newData.value = result;
+  });
 });
 </script>
 <template>
   <TheNavigationForDelete />
-  <div>
+  <div class="content">
     <form class="row g-3">
       <div class="msgContainer">
         <div class="mb-3">
@@ -49,7 +48,9 @@ onMounted(async () => {
     <div class="box">
       <p class="subTitle">こちらのダー田を削除します。本当によろしいですか？</p>
       <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-        <DeleteButton />
+        <router-link to="/employees">
+          <DeleteButton @click="HttpManager.deleteEmployeeById(id)" />
+        </router-link>
         <CancelButton />
       </div>
     </div>

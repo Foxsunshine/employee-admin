@@ -23,5 +23,3 @@ h2 {
   margin-top: 0px;
 }
 </style>
-
-かjsflだsjflじゃwぇfjpあjsdfぁs
