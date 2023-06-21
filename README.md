@@ -11,15 +11,18 @@
 1. 运行 employees-springboot-server 文件夹下 employee-reset.sql,初始化测试数据
 2. 改变运行 employees-springboot-server/src/main/resources 的配置
 
-`````spring.datasource.url=jdbc:mysql://localhost:3306/[你的 database 名字]
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/[你的 database 名字]
 spring.datasource.username=[你的用户名]
-spring.datasource.password=[你的密码]```
+spring.datasource.password=[你的密码]
+```
 
 3. 通过 maven 启动服务器，在终端(terminal)输入`mvn spring-boot:run`
 4. 打开 employees-admin 文件在，通过终端(terminal)启动前端服务器
 
-````npm install
-npm run dev```
+```
+npm install
+npm run dev
+```
 
 ## ❤️❤️
-`````
