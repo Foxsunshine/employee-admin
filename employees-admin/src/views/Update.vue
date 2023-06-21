@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { HttpManager } from "@/api/index";
 import CancelButton from "@/components/CancelButton.vue";
 import ConfirmButton from "@/components/ConfirmButton.vue";
@@ -44,11 +44,11 @@ function setData() {
 </script>
 <template>
   <TheNavigationForUpdate />
-  <div class="content">
+  <div class="container">
     <form class="row g-3">
       <div class="mb-3">
         <label for="name" class="form-label">Id</label>
-        <p class="form-control-plaintext">{{ id }}</p>
+        <p class="form-control-plaintext confirm-msg">{{ id }}</p>
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">名前</label>
@@ -69,9 +69,9 @@ function setData() {
       </div>
       <div class="mb-3">
         <p>プロフィール画像</p>
-        <img :src="imgUrl" class="img-fluid rounded-circle" />
+        <img :src="imgUrl" class="rounded-circle" />
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+      <div class="button-container">
         <router-link to="/update_confirm" v-if="isValidEmail">
           <ConfirmButton @click="setData()" />
         </router-link>

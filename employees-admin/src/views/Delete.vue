@@ -24,30 +24,30 @@ onMounted(async () => {
 </script>
 <template>
   <TheNavigationForDelete />
-  <div class="content">
-    <form class="row g-3">
-      <div class="msgContainer">
-        <div class="mb-3">
-          <p class="label-title">id</p>
-          <p class="confirm-msg">{{ id }}</p>
-        </div>
-        <div class="mb-3">
-          <p class="label-title">名前</p>
-          <p class="confirm-msg">{{ newData.name }}</p>
-        </div>
-        <div class="mb-3">
-          <p class="label-title">メールアドレス</p>
-          <p class="confirm-msg">{{ newData.email }}</p>
-        </div>
-        <div class="mb-3">
-          <p class="label-title">プロフィール画像</p>
-          <img :src="imgUrl" class="img-fluid rounded-circle" />
-        </div>
+  <div class="container">
+    <form class="row">
+      <div class="mb-3 sub-container">
+        <p class="label-title">id</p>
+        <p class="confirm-msg">{{ id }}</p>
+      </div>
+      <div class="mb-3 sub-container">
+        <p class="label-title">名前</p>
+        <p class="confirm-msg">{{ newData.name }}</p>
+      </div>
+      <div class="mb-3 sub-container">
+        <p class="label-title">メールアドレス</p>
+        <p class="confirm-msg">{{ newData.email }}</p>
+      </div>
+      <div class="mb-3 sub-container">
+        <p class="label-title">プロフィール画像</p>
+        <img :src="imgUrl" class="rounded-circle" />
       </div>
     </form>
     <div class="box">
-      <p class="subTitle">こちらのダー田を削除します。本当によろしいですか？</p>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+      <p class="sub-title">
+        こちらのダー田を削除します。本当によろしいですか？
+      </p>
+      <div class="botton-container">
         <router-link to="/employees">
           <DeleteButton @click="HttpManager.deleteEmployeeById(id)" />
         </router-link>
@@ -56,10 +56,4 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-<style scoped>
-img {
-  object-fit: cover;
-  width: 100px;
-  height: 100px;
-}
-</style>
+<style scoped></style>

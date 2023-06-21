@@ -35,21 +35,17 @@ function setData() {
 
 <template>
   <TheNavigationForCreate />
-  <div class="content">
+  <div class="container">
     <form class="row g-3">
-      <div class="row mb-3">
-        <div class="col-4">
-          <label for="name" class="form-label">名前</label>
-        </div>
-        <div class="col-8">
-          <input
-            v-model="name"
-            type="text"
-            class="form-control"
-            id="name"
-            placeholder="愛　アイフル"
-          />
-        </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">名前</label>
+        <input
+          v-model="name"
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="愛ちゃん"
+        />
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">メールアドレス</label>
@@ -59,7 +55,7 @@ function setData() {
           type="email"
           class="form-control"
           id="name"
-          placeholder="Aiful@aiful.com"
+          placeholder="ai@aiful.com"
         />
         <p v-if="!isValidEmail" style="color: red">
           メールアドレスに使用不可な文字が含まれています
@@ -74,7 +70,7 @@ function setData() {
           @change="handleFileChange"
         />
       </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+      <div class="button-container">
         <router-link to="/create_confirm" v-if="isValidEmail">
           <ConfirmButton @click="setData()" />
         </router-link>

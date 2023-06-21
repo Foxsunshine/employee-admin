@@ -5,7 +5,7 @@ const counter = useCounterStore();
 
 <template>
   <div id="nav">
-    <router-link id="logo" to="/employees">研修生一覧</router-link>
+    <h1 id="logo">研修生一覧</h1>
     <div class="link">
       <router-link id="create" to="/create" @click="counter.setConfirmToCreate"
         >新規登録</router-link
@@ -14,4 +14,8 @@ const counter = useCounterStore();
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#nav {
+  justify-content: space-between;
+}
+</style>

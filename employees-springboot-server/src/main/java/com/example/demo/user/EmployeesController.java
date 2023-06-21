@@ -1,7 +1,8 @@
 package com.example.demo.user;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,32 +34,27 @@ public class EmployeesController {
     }
 
     @GetMapping("/employees/{id}")
-    public Employees getEmployeeById(@PathVariable int id) {
-        Employees employee = respository.findEmployeeById(id);
+    public Optional<Employees> getEmployeeById(@PathVariable int id) {
+        Optional<Employees> employee = respository.findById(id);
         return employee;
     }
 
     @PostMapping("create")
-    public String createName(@RequestBody Map<String, String> body) {
-        String name = body.get("name");
-        String email = body.get("email");
-        String image = body.get("image");
-        respository.createEmployee(name, email, image);
+    public String createName(@RequestBody Employees employee) {
+        respository.save(employee);
         return "successfully insert";
     }
 
     @PutMapping("update/{id}")
-    public String updateById(@PathVariable int id, @RequestBody Map<String, String> body) {
-        String name = body.get("name");
-        String email = body.get("email");
-        int rowsUpdated = respository.updateEmployeeById(name, email, id);
-        return rowsUpdated + " row(s) have been updated";
+    public String updateById(@PathVariable int id, @RequestBody Employees employee) {
+        respository.updateEmployeeById(employee.getName(), employee.getEmail(), id);
+        return id + " successfully update";
     }
 
     @DeleteMapping("delete/{id}")
     public String deleteById(@PathVariable int id) {
-        int rowsUpdated = respository.deleteEmployeeById(id);
-        return rowsUpdated + " row(s) have been deleted";
+        respository.deleteById(id);
+        return id + " have been deleted";
     }
 
 }

@@ -2,12 +2,8 @@
 
 <template>
   <div id="nav">
-    <h1 id="logo">研修生一覧　編集　確認</h1>
+    <h1 id="logo">研修生一覧 編集 確認</h1>
   </div>
 </template>
 
-<style scoped>
-#nav {
-  justify-content: center;
-}
-</style>
+<style scoped></style>

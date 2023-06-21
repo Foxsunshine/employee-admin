@@ -1,115 +1,93 @@
-*,
-*:before,
-*:after {
-    box-sizing: border-box;
-}
-:root {
 
+/*=============== BASE ===============*/
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+
+#app {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-#app {
-
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
 }
 
 a {
   text-decoration: none;
-  font-weight: medium;
-}
-
-body {
-  display: flex;
-  min-height: 100vh;
-  background: #ffffff;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 img {
   object-fit: cover;
-  width: 100px;
+  max-width: 100px;
   height: 100px;
 }
 
-.container {
-  margin: auto;
-  max-width: 960px;
-}
-.btn {
- width: 150px;
- margin: auto 10px ;
-}
+/*=============== REUSABLE CSS CLASSES ===============*/
 
-.home {
+.container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: center;
+  width: calc(100% - 6rem); /* 使得元素的宽度为视口宽度减去左右各3rem */
+  box-sizing: border-box; /* 使得 padding 和 border 都包含在上面设定的宽度内 */
+  position: fixed; /* 使用绝对定位 */
+  top: 50%; /* 从视口顶部偏移50% */
+  left: 50%; /* 从视口左侧偏移50% */
+  transform: translate(-50%, -50%); /* 使用 transform 修正偏移，使元素完全居中 */
 }
-.label-title {
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sub-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title{
+  font-size: 3rem;
+}
+.sub-title{
+  margin-top: 2rem;
+}
+
+.btn{
+  width: 10rem;
+  margin: auto 0.5rem;
+}
+
+.label-title{
   color: #707070;
-  font-size: 15px;
-  margin-bottom: 5px;
 }
 .confirm-msg{
   font-weight: bold;
   text-decoration: underline;
 }
-/* Confirm Page */
-.msgContainer > * {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 25px;
-}
-.subTitle {
-  font-size: 15px;
-  margin: 30px auto 40px auto;
-  margin-bottom: 12px;
-}
-.button-container {
-  display: flex !important;
-  justify-content: space-between;
-  gap: 10px;
-}
-.box {
-  display: flex;
-  flex-direction: column;
-}
-.content{
-  margin-top: 100px;
-}
+
 /* Navigation */
 #nav {
   position: fixed;
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
   top: 0;
   left: 0;
   right: 0;
-  margin-top: 0;
-  padding: 30px;
+  padding: 20px 60px;
+
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+
   background: #373737;
   color: white;
-  display: flex;
-  align-items: center;
   border-bottom: 5px solid #707070;
   z-index: 2;
 }
@@ -129,5 +107,4 @@ img {
 #logo {
   font-weight: bold;
   font-size: 1.5rem;
-  opacity: 1 !important;
 }

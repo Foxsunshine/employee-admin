@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import Pagination from "./Pagination.vue";
 import { useCounterStore } from "@/stores/counter";
 import { HttpManager } from "@/api/index";
@@ -45,7 +45,7 @@ function setUpdateData(id, name, email) {
 </script>
 
 <template>
-  <div class="content">
+  <div class="container">
     <div v-if="isLoading">Loading...</div>
     <table v-else id="myTable" class="table table-hover">
       <thead>
@@ -99,14 +99,7 @@ function setUpdateData(id, name, email) {
 
 <style scoped>
 img {
-  width: 35px;
-  height: 35px;
-}
-
-.content {
-  display: flex;
-  margin-top: 100px;
-  flex-direction: column;
-  align-items: center;
+  max-width: 30px;
+  height: 30px;
 }
 </style>

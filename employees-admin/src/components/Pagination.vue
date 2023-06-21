@@ -1,7 +1,72 @@
+<script setup>
+import { ref, watch, computed } from "vue";
+
+// define props
+const props = defineProps({
+  totalPages: {
+    type: Number,
+    required: true,
+  },
+  initialPage: {
+    type: Number,
+    default: 1,
+  },
+});
+
+// define emits
+const emit = defineEmits(["update:currentPage"]);
+
+let currentPage = ref(props.initialPage);
+const preButton = ref(null);
+const nextButton = ref(null);
+
+const surroundingPages = 1;
+const startPage = computed(() => {
+  let start = currentPage.value - surroundingPages;
+  return Math.max(start, 2);
+});
+const endPage = computed(() => {
+  let end = currentPage.value + surroundingPages;
+  return Math.min(end, props.totalPages - 1);
+});
+
+const pages = computed(() => {
+  const range = [];
+  for (let i = startPage.value; i <= endPage.value; i++) {
+    range.push({ name: i, isDisabled: i === currentPage.value });
+  }
+  return range;
+});
+
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    preButton.value.blur();
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < props.totalPages) {
+    currentPage.value++;
+    nextButton.value.blur();
+  }
+};
+
+const changePage = (page) => {
+  currentPage.value = page;
+};
+
+watch(currentPage, (newVal) => {
+  emit("update:currentPage", newVal);
+});
+</script>
+
 <template>
   <ul class="pagination" v-if="totalPages !== 1">
     <li class="page-item" :class="{ disabled: currentPage === 1 }">
-      <button class="page-link" @click="previousPage">&laquo;</button>
+      <button class="page-link" @click="previousPage" ref="preButton">
+        &laquo;
+      </button>
     </li>
     <li class="page-item" :class="{ active: currentPage === 1 }">
       <button
@@ -45,72 +110,15 @@
       </button>
     </li>
     <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-      <button class="page-link" @click="nextPage">&raquo;</button>
+      <button class="page-link" @click="nextPage" ref="nextButton">
+        &raquo;
+      </button>
     </li>
   </ul>
   <button class="page-link" type="button" v-if="totalPages === 1" disabled>
     1
   </button>
 </template>
-<script setup>
-import { ref, watch, computed } from "vue";
-
-// define props
-const props = defineProps({
-  totalPages: {
-    type: Number,
-    required: true,
-  },
-  initialPage: {
-    type: Number,
-    default: 1,
-  },
-});
-
-// define emits
-const emit = defineEmits(["update:currentPage"]);
-
-let currentPage = ref(props.initialPage);
-
-const surroundingPages = 1;
-const startPage = computed(() => {
-  let start = currentPage.value - surroundingPages;
-  return Math.max(start, 2);
-});
-const endPage = computed(() => {
-  let end = currentPage.value + surroundingPages;
-  return Math.min(end, props.totalPages - 1);
-});
-
-const pages = computed(() => {
-  const range = [];
-  for (let i = startPage.value; i <= endPage.value; i++) {
-    range.push({ name: i, isDisabled: i === currentPage.value });
-  }
-  return range;
-});
-
-const previousPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-};
-
-const nextPage = () => {
-  if (currentPage.value < props.totalPages) {
-    currentPage.value++;
-  }
-};
-
-const changePage = (page) => {
-  currentPage.value = page;
-};
-
-watch(currentPage, (newVal) => {
-  emit("update:currentPage", newVal);
-});
-</script>
-
 <style scoped>
 .pagination {
   position: relative;
