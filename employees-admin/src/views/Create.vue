@@ -37,15 +37,19 @@ function setData() {
   <TheNavigationForCreate />
   <div class="content">
     <form class="row g-3">
-      <div class="mb-3">
-        <label for="name" class="form-label">名前</label>
-        <input
-          v-model="name"
-          type="text"
-          class="form-control"
-          id="name"
-          placeholder="愛　アイフル"
-        />
+      <div class="row mb-3">
+        <div class="col-4">
+          <label for="name" class="form-label">名前</label>
+        </div>
+        <div class="col-8">
+          <input
+            v-model="name"
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="愛　アイフル"
+          />
+        </div>
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">メールアドレス</label>

@@ -57,7 +57,9 @@ img {
 .home {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 .label-title {
   color: #707070;

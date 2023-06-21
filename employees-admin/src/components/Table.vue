@@ -103,42 +103,10 @@ img {
   height: 35px;
 }
 
-/* Set the width of each column in the table */
-/* テーブル内の各列の幅を設定 */
-.table th:nth-child(1),
-.table td:nth-child(1) {
-  width: 10%;
-}
-
-.table th:nth-child(2),
-.table td:nth-child(2) {
-  width: 15%;
-}
-
-.table th:nth-child(3),
-.table td:nth-child(3) {
-  width: 20%;
-}
-
-.table th:nth-child(4),
-.table td:nth-child(4) {
-  width: 39%;
-}
-
-.table th:nth-child(5),
-.table td:nth-child(5) {
-  width: 10%;
-}
-.table th:nth-child(6),
-.table td:nth-child(6) {
-  width: 10%;
-}
-
 .content {
   display: flex;
   margin-top: 100px;
   flex-direction: column;
   align-items: center;
-  width: 800px;
 }
 </style>
