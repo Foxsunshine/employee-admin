@@ -29,7 +29,6 @@ function handleFileChange(event) {
 }
 function setData() {
   counter.setNewData(name.value, email.value, image.value);
-  counter.setConfirmToCreate();
 }
 </script>
 

@@ -13,26 +13,13 @@ export const useCounterStore = defineStore({
     // Used for creating, updating data
     // データの作成、更新に使用
     newData: {
-      name: "aiful",
-      email: "aiful@aiful.com",
+      name: "愛ちゃん",
+      email: "ai@aiful.com",
       image: "1.jpeg",
     },
-
-    // Used for manage the "Confirm" button should navigate to.
-    // "Confirm"ボタンがナビゲートすべき場所を管理する
-    confirmTo: "",
   }),
 
   actions: {
-    // Determining where the "Confirm" button should navigate to.
-    // "Confirm"ボタンがナビゲートする場所を決定する
-    setConfirmToCreate() {
-      this.confirmTo = "create";
-    },
-    setConfirmToUpdate() {
-      this.confirmTo = "update";
-    },
-
     // the current updating id
     // 現在更新中のID
     setUpdateId(id) {
@@ -46,9 +33,9 @@ export const useCounterStore = defineStore({
     // set the updating new data
     // 更新する新しいデータを設定する
     setNewData(name, email, image) {
-      this.newData.name = name;
-      this.newData.email = email;
-      this.newData.image = image;
+      if (name !== "") this.newData.name = name;
+      if (email !== "") this.newData.email = email;
+      if (image !== "") this.newData.image = image;
     },
     // set the updating new img
     // 更新する新しい画像を設定する
