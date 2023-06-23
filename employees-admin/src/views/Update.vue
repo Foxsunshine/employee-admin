@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute } from "vue-router";
 import { HttpManager } from "@/api/index";
@@ -14,6 +14,14 @@ const name = ref("");
 const email = ref("");
 const image = ref("");
 const emailInputTouched = ref(false);
+
+const mouseoverImage = ref(false);
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  HttpManager.uploadImage(file).then((imagePath) => {
+    image.value = imagePath;
+  });
+};
 
 onMounted(async () => {
   HttpManager.getEmployeeById(id.value).then((result) => {
@@ -69,7 +77,22 @@ function setData() {
       </div>
       <div class="mb-3">
         <p>プロフィール画像</p>
-        <img :src="imgUrl" class="rounded-circle" />
+
+        <img
+          :src="imgUrl"
+          class="rounded-circle"
+          @mouseover="mouseoverImage = true"
+          @mouseleave="mouseoverImage = false"
+          @click="$refs.fileInput.click()"
+          :style="{ opacity: mouseoverImage ? 0.5 : 1 }"
+        />
+        <input
+          type="file"
+          ref="fileInput"
+          style="display: none"
+          @change="handleFileChange"
+          accept="image/*"
+        />
       </div>
       <div class="button-container">
         <router-link to="/update_confirm" v-if="isValidEmail">
@@ -81,4 +104,13 @@ function setData() {
     </form>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.image-container {
+  position: relative;
+  /* width: 200px;
+  height: 200px; */
+}
+.rounded-circle {
+  cursor: pointer;
+}
+</style>

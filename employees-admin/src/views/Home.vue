@@ -7,4 +7,11 @@
     </router-link>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

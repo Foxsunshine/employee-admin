@@ -102,4 +102,10 @@ img {
   max-width: 30px;
   height: 30px;
 }
+.container {
+  position: relative;
+  left: 0;
+  top: 7rem;
+  transform: translate(0, 0);
+}
 </style>

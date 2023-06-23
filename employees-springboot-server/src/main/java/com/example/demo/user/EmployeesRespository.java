@@ -14,7 +14,7 @@ public interface EmployeesRespository extends JpaRepository<Employees, Integer> 
 
     @Modifying
     @Transactional
-    @Query(value = "update employees set name = ?1, email = ?2 where id = ?3", nativeQuery = true)
-    void updateEmployeeById(String name, String email, int id);
+    @Query(value = "update employees set name = ?1, email = ?2,image = ?3 where id = ?4", nativeQuery = true)
+    void updateEmployeeById(String name, String email, String image, int id);
 
 }

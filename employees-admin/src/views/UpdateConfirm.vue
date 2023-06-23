@@ -1,9 +1,9 @@
 <script setup>
 import { useCounterStore } from "@/stores/counter";
-import RegisterButton from "../components/RegisterButton.vue";
-import CancelButton from "../components/CancelButton.vue";
+import RegisterButton from "@/components/RegisterButton.vue";
+import CancelButton from "@/components/CancelButton.vue";
 import TheNavigationForUpdateConfirm from "@/components/TheNavigationForUpdateConfirm.vue";
-import { HttpManager } from "../api";
+import { HttpManager } from "@/api";
 
 const counter = useCounterStore();
 </script>

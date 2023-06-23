@@ -47,7 +47,7 @@ public class EmployeesController {
 
     @PutMapping("update/{id}")
     public String updateById(@PathVariable int id, @RequestBody Employees employee) {
-        respository.updateEmployeeById(employee.getName(), employee.getEmail(), id);
+        respository.updateEmployeeById(employee.getName(), employee.getEmail(), employee.getImage(), id);
         return id + " successfully update";
     }
 
