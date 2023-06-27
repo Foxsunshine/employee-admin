@@ -1,9 +1,9 @@
 <script setup>
-import Table from "@/components/Table.vue";
+import EmployeesTable from "@/components/EmployeesTable.vue";
 import TheNavigation from "@/components/TheNavigation.vue";
 </script>
 <template>
   <TheNavigation />
 
-  <Table />
+  <EmployeesTable />
 </template>

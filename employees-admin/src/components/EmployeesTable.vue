@@ -40,7 +40,6 @@ function setDeleteData(id, name, email) {
 function setUpdateData(id, name, email) {
   counter.setUpdateId(id);
   counter.setNewData(name, email);
-  counter.setConfirmToUpdate();
 }
 </script>
 

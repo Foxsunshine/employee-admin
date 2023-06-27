@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useRoute } from "vue-router";
 import { HttpManager } from "@/api/index";
@@ -98,7 +98,7 @@ function setData() {
         <router-link to="/update_confirm" v-if="isValidEmail">
           <ConfirmButton @click="setData()" />
         </router-link>
-        <ConfirmButton v-else />
+        <ConfirmButton v-else class="disabled" />
         <CancelButton />
       </div>
     </form>
